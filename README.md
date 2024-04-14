@@ -1,4 +1,24 @@
-# [Python](https://www.python.org/) with [FastAPI](https://fastapi.tiangolo.com/) template
+# Tech Challenge #1
+
+Você foi contratado(a) para uma consultoria e seu trabalho envolve analisar os dados de vitivinicultura da Embrapa, os quais estão disponíveis [aqui](http://vitibrasil.cnpuv.embrapa.br/index.php).
+
+A ideia do projeto é a criação de uma _API_ pública de consulta nos dados do site nas respectivas abas:
+
+* Produção
+* Processamento
+* Comercialização
+* Importação
+* Exportação
+
+A _API_ vai servir para alimentar uma base de dados que futuramente será usada para um modelo de _Machine Learning_.
+
+Seus objetivos incluem:
+
+* Criar uma Rest _API_ em [Python](https://www.python.org/) que faça a consulta no [site da Embrapa](http://vitibrasil.cnpuv.embrapa.br/index.php).
+* Sua _API_ deve estar documentada.
+* É recomendável (não obrigatório) a escolha de um método de autenticação ([`JWT`](https://jwt.io), por exemplo).
+* Criar um plano para fazer o _deploy_ da _API_, desenhando a arquitetura do projeto desde a ingestão até a alimentação do modelo (aqui não é necessário elaborar um modelo de ML, mas é preciso que vocês escolham um cenário interessante em que a _API_ possa ser utilizada).
+* Fazer um _MVP_ realizando o _deploy_ com um link compartilhável e um repositório no [GitHub](https://github.com/LucasVmigotto/fiap-pos-ml-eng-techchallenge-1).
 
 ## Development
 
@@ -8,13 +28,13 @@
 
         ```bash
         # With HTTPS
-        git clone https://github.com/LucasVmigotto/python-fastapi.git
+        git clone https://github.com/LucasVmigotto/fiap-pos-ml-eng-techchallenge-1.git
         ```
 
     * With `SSH`
 
         ```bash
-        git clone git@github.com:LucasVmigotto/python-fastapi.git
+        git clone git@github.com:LucasVmigotto/fiap-pos-ml-eng-techchallenge-1.git
         ```
 
 2. Create a copy of `.env.example` and rename it to `.env`
