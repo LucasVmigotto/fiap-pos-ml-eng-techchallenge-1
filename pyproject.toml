@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "fiap-pos-techchallenge"
+version = "0.1.0"
+description = "Projeto para o curso de Pós Graduação em Machine Learning Engineering da FIAP"
+authors = ["Lucas Vidor Migotto <lvmigotto1@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+pandas = "^2.2.2"
+uvicorn = "^0.29.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

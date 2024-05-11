@@ -7,3 +7,5 @@ data/
 .npm/
 
 .env
+
+requirements.txt
