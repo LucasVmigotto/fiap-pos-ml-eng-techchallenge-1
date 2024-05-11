@@ -2,39 +2,33 @@ services:
   jupyter:
     image: quay.io/jupyter/datascience-notebook:python-3.11
     container_name: jupyter
-    hostname: hostname
+    hostname: jupyter
     working_dir: /app
     env_file: .env
     ports:
     - 8888:8888
     volumes:
-    - .:/app:delegated
-    - home:/home/$LOCAL_USER_NAME
+    - .:/app
     networks:
-    - api-network
-
+    - techchallenge-network
 
   api:
     container_name: api
     hostname: api
     build:
-      context: ./docker/dev
+      dockerfile: ./.devcontainer/Dockerfile
+      context: .
     working_dir: /app
     command: python -m uvicorn src.main:app --host $API_HOST --port $API_PORT --reload
-    tty: true
-    env_file: .env
-    environment:
-    - PYTHONPATH=/app/src
     volumes:
-    - .:/app:delegated
-    - home:/home/$LOCAL_USER_NAME
+    - .:/app
     ports:
     - $API_PORT:$API_PORT
     networks:
-    - api-network
+    - techchallenge-network
 
 volumes:
   home:
 
 networks:
-  api-network:
+  techchallenge-network:
