@@ -1,15 +1,17 @@
 from os import listdir
 from pathlib import Path
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from settings import settings
 from utils import read_dataframe_from_code
+from security.auth import get_username_from_token
 
 
 router = APIRouter(
     prefix='/info',
-    tags=['Info']
+    tags=['Info'],
+    dependencies=[Depends(get_username_from_token)]
 )
 
 
@@ -19,9 +21,10 @@ router = APIRouter(
 )
 def list_dataframes():
     try:
+        DATA_FOLDER_PATH: str = settings.get_config('api', 'data', 'folder_path')
         data_files = [f'{category}.{data_file[:-4]}'
-                      for category in listdir(settings.DATA_FOLDER_PATH)
-                      for data_file in listdir(Path(settings.DATA_FOLDER_PATH) / category)]
+                      for category in listdir(DATA_FOLDER_PATH)
+                      for data_file in listdir(Path(DATA_FOLDER_PATH) / category)]
 
         return {'dataframes': data_files}
 

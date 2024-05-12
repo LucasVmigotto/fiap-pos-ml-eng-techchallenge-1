@@ -1,12 +1,16 @@
 from typing import Annotated
+from fastapi import Depends
+from pandas import DataFrame
 from fastapi import APIRouter, HTTPException, Query
 
 from utils import read_dataframe_from_code
+from security.auth import get_username_from_token
 
 
 router = APIRouter(
     prefix='/data',
-    tags=['Data']
+    tags=['Data'],
+    dependencies=[Depends(get_username_from_token)]
 )
 
 
@@ -20,7 +24,7 @@ def get_data(dataframe_code: str,
              columns: Annotated[list[str] | None, Query()] = None,
              as_json: bool = True):
     try:
-        df = read_dataframe_from_code(dataframe_code)
+        df: DataFrame = read_dataframe_from_code(dataframe_code)
 
         rows_selected = range(row_start, row_end) if row_start is not None and row_end is not None else df.index
 
