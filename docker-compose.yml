@@ -1,4 +1,5 @@
 services:
+
   jupyter:
     image: quay.io/jupyter/datascience-notebook:python-3.11
     container_name: jupyter
@@ -12,18 +13,18 @@ services:
     - techchallenge-network
 
   api:
+    build:
+      context: .
+      dockerfile: ./.devcontainer/Dockerfile
     container_name: api
     hostname: api
-    build:
-      dockerfile: ./.devcontainer/Dockerfile
-      context: .
     working_dir: /app
-    user: vscode
-    command: poetry run python -m uvicorn src.main:app --host '0.0.0.0' --port 8000 --reload
+    command: poetry run python -m uvicorn src.main:app --host 0.0.0.0 --port 8001 --reload
+    restart: always
+    ports:
+    - 8001:8001
     volumes:
     - .:/app
-    ports:
-    - 8001:8000
     networks:
     - techchallenge-network
 
