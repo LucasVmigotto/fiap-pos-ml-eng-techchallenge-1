@@ -1,0 +1,16 @@
+[api]
+host = '0.0.0.0'
+port = 8000
+
+[api.data]
+folder_path = '/app/data/raw'
+origin_url = 'http://vitibrasil.cnpuv.embrapa.br/download/'
+
+[api.auth]
+default_username = 'root'
+default_password = 'rootroot'
+
+[api.auth.jwt]
+secret = 'jwtsecret'
+exp_hours = 3
+algorithm = 'HS256'

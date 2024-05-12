@@ -1,37 +1,23 @@
-from os import getenv
+from typing import Any
+from tomli import load as load_toml
 from pathlib import Path
+
+
+def get_config(data, *keys) -> Any | None:
+    if isinstance(data.get(keys[0]), dict):
+        return get_config(data.get(keys[0]), *keys[1:])
+    else:
+        return data.get(keys[0])
 
 
 class Settings:
 
-    DATA_ORIGIN_URL = getenv('API_DATA_ORIGIN_URL',
-                             'http://vitibrasil.cnpuv.embrapa.br/download/')
+    def __init__(self, configfile: str = 'application.toml') -> None:
+        with open(Path(configfile), 'rb') as file_ref:
+            self.__config: dict[str, Any] = load_toml(file_ref)
 
-    DATA_RAW_STRUCTURE: dict[str, str] = dict(
-        producao=dict(producao='Producao.csv'),
-        processamento=dict(viniferas='ProcessaViniferas.csv',
-                           americanas='ProcessaAmericanas.csv',
-                           mesa='ProcessaMesa.csv',
-                           sem_classificacao='ProcessaSemclass.csv'),
-        comercializacao=dict(comercio='Comercio.csv'),
-        importacao=dict(mesa='ImpVinhos.csv',
-                        espumantes='ImpEspumantes.csv',
-                        frescas='ImpFrescas.csv',
-                        passas='ImpPassas.csv',
-                        suco='ImpSuco.csv'),
-        exportacao=dict(mesa='ExpVinho.csv',
-                        espumantes='ExpEspumantes.csv',
-                        frescas='ExpUva.csv',
-                        suco='ExpSuco.csv')
-    )
-
-    __DATA_FOLDER_PATH_VALUE = getenv('API_DATA_FOLDER_PATH',
-                                      '/app/data/raw/')
-
-    DATA_FOLDER_PATH: Path = Path(__DATA_FOLDER_PATH_VALUE)
-
-    JWT_SECRET: str = getenv('API_JWT_SECRET',
-                             'jwtsecret')
+    def get_config(self, *keys) -> Any | None:
+        return get_config(self.__config, *keys)
 
 
 settings = Settings()

@@ -20,6 +20,17 @@ Seus objetivos incluem:
 * Criar um plano para fazer o _deploy_ da _API_, desenhando a arquitetura do projeto desde a ingestão até a alimentação do modelo (aqui não é necessário elaborar um modelo de ML, mas é preciso que vocês escolham um cenário interessante em que a _API_ possa ser utilizada).
 * Fazer um _MVP_ realizando o _deploy_ com um link compartilhável e um repositório no [GitHub](https://github.com/LucasVmigotto/fiap-pos-ml-eng-techchallenge-1).
 
+## Requirements
+
+### Mandatory
+
+* [Docker CE](https://docs.docker.com/engine/)
+
+### Optional/Recommended
+
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
+
 ## Development
 
 1. Clone the repository
@@ -37,29 +48,29 @@ Seus objetivos incluem:
         git clone git@github.com:LucasVmigotto/fiap-pos-ml-eng-techchallenge-1.git
         ```
 
-2. Create a copy of `.env.example` and rename it to `.env`
-
-    > Customize, if necessary, the env var's values
-
-3. Start and enter inside the `api` container
+2. Open the project with [Visual Studio Code](https://code.visualstudio.com/):
 
     ```bash
-    docker compose run --rm --service-ports api bash
+    code <project folder>
     ```
 
-4. Install all the required base libs
+    > If the project not already open inside a container, use `CTRL` + `Shift` + `P` and run the _Dev Containers: Rebuild Container Without Cache_ command
+
+3. Happy coding :)
+
+## Running the application
+
+### Inside the Visual Studio Code Container
+
+* Run inside the Visual Studio Code terminal
 
     ```bash
-    pip install -r requirements.txt
+    poetry run python -m uvicorn --host 0.0.0.0 --port 8000 --reload
     ```
 
-5. Exit the container
+### Inside a separate container (with Docker Compose)
 
-    ```bash
-    exit # or CTRL + D
-    ```
-
-6. Start the container service
+* Run the following command:
 
     ```bash
     docker compose up api
@@ -67,11 +78,36 @@ Seus objetivos incluem:
 
     > You can use `docker compose -d up api` to run in detached mode. Although, to be able to see any server logs, you will need to run `docker compose logs -f api`
     >
-    > Once successfully started, the service will be available in [localhost:8000](http://localhost:8000)
+    > Once successfully started, the service will be available in [localhost:8001](http://localhost:8001)
+    >
+    > The Docker Compose container use the port 8001 to not get conflicted with the Visual Studio Code that use the port 8000 - Uvicorn default's door
 
 ## Deployment
 
-TODO
+### Build the Production Docker image
+
+* Run the following command in the first level of the project's folder:
+
+    ```bash
+    docker build \
+        -f Dockerfile
+        --tag fiap-pos-techchallenge \
+        --no-cache \
+        .
+    ```
+
+    > If necessary, add the `--progress plain` to see all build output
+
+  * You can test the builded container with:
+
+    ```bash
+    docker run \
+        --publish 8001:80 \
+        --rm \
+        fiap-pos-techchallenge
+    ```
+
+    > Give it a try in [localhost:8001](http://localhost:8001/docs)
 
 ## References
 
@@ -79,3 +115,5 @@ TODO
 * [FastAPI](https://fastapi.tiangolo.com/)
 * [Docker](https://docs.docker.com/)
 * [Docker Compose](https://docs.docker.com/reference/cli/docker/compose/)
+* [Poetry](https://python-poetry.org/)
+* [JWT](https://jwt.io)

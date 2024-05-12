@@ -1,0 +1,5 @@
+.ipython/
+.local/
+.npm/
+data/
+__pycache__/
