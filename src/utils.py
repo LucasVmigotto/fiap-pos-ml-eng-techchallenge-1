@@ -11,7 +11,7 @@ def read_dataframe_from_code(df_code: str) -> DataFrame:
 
     category, dataframe = df_code.split('.')
 
-    DF_PATH: Path = settings.DATA_FOLDER_PATH / category / f'{dataframe}.csv'
+    DF_PATH: Path = Path(settings.get_config('api', 'data', 'folder_path')) / category / f'{dataframe}.csv'
 
     if not DF_PATH.exists():
         raise FileNotFoundError('Dataframe not found')
