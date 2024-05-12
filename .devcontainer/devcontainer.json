@@ -9,7 +9,6 @@
     ],
     "workspaceMount": "source=.,target=/app,type=bind,consistency=cached",
     "workspaceFolder": "/app",
-    // "forwardPorts": [8000],
     "customizations": {
         "vscode": {
             "extensions": [
