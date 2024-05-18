@@ -8,7 +8,6 @@ from data.data import download_data_files
 
 download_data_files()
 
-
 app = FastAPI()
 app.include_router(router=auth_router)
 app.include_router(router=info_router)

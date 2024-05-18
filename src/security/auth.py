@@ -3,14 +3,16 @@ from logging import Logger
 from datetime import datetime, timedelta
 from typing import Annotated, Any
 from fastapi import HTTPException, status, Depends
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 from schemas.auth import Token, TokenData
 from settings import settings
 
 
 logger: Logger = logging.getLogger(__name__)
-oauth2_schema = OAuth2PasswordBearer(tokenUrl="/auth/token")
+
+auth_schema = HTTPBearer(auto_error=False)
+
 JWT_SECRET: int = settings.get_config('api', 'auth', 'jwt', 'secret')
 JWT_EXP_HOURS: int = settings.get_config('api', 'auth', 'jwt', 'exp_hours')
 JWT_ALGORITHM: int = settings.get_config('api', 'auth', 'jwt', 'algorithm')
@@ -30,11 +32,16 @@ def decode(token: str) -> dict[str, Any]:
                       key=JWT_SECRET)
 
 
-def get_username_from_token(token: Annotated[str, Depends(oauth2_schema)]) -> TokenData:
+def get_username_from_token(
+    token: Annotated[HTTPAuthorizationCredentials, Depends(auth_schema)]
+) -> TokenData:
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                           detail='Credentials could not be validated')
     try:
-        decoded: dict[str, Any] = decode(token=token)
+        if token is None:
+            raise credentials_exception
+
+        decoded: dict[str, Any] = decode(token=token.credentials)
 
         username: str | None = decoded.get('sub')
 

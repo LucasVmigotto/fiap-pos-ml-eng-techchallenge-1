@@ -34,7 +34,8 @@
                 "streetsidesoftware.code-spell-checker-portuguese-brazilian",
                 "christian-kohler.path-intellisense",
                 "redhat.vscode-yaml",
-                "tamasfe.even-better-toml"
+                "tamasfe.even-better-toml",
+                "ms-python.autopep8"
             ]
         }
     }
